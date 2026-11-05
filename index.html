@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invencible - Personal Trainer</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #06040a;
+      color: #ffffff;
+    }
+    .neon-border {
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+    }
+    .neon-border:hover {
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+    }
+    .text-glow {
+      text-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marquee 25s linear infinite;
+    }
+    .editable-active [contenteditable="true"] {
+      outline: 2px dashed #c084fc !important;
+      outline-offset: 4px;
+      cursor: text;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-black py-2 text-center text-xs tracking-wider text-purple-300 font-medium border-b border-purple-900/40">
+    Welcome to Invencible
+  </div>
+
+  <!-- Navbar -->
+  <nav class="border-b border-purple-900/30 bg-black/60 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-8">
+        <span class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+          <i data-lucide="dumbbell" class="text-purple-500 w-6 h-6"></i> INVENCIBLE
+        </span>
+        <div class="hidden md:flex space-x-6 text-sm text-gray-300">
+          <a href="#sobre-mi" class="hover:text-purple-400 transition">Inicio</a>
+          <a href="#planes" class="hover:text-purple-400 transition">Catálogo</a>
+          <a href="#contacto" class="hover:text-purple-400 transition">Contacto</a>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <!-- Botón de Login Admin -->
+        <button id="auth-btn" onclick="toggleAuthModal()" class="text-xs bg-purple-950/80 text-purple-300 border border-purple-800/50 hover:border-purple-500 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+          <i data-lucide="lock" class="w-3.5 h-3.5"></i> Admin
+        </button>
+        <button class="text-gray-300 hover:text-purple-400 p-2"><i data-lucide="search" class="w-5 h-5"></i></button>
+        <button class="text-gray-300 hover:text-purple-400 p-2"><i data-lucide="user" class="w-5 h-5"></i></button>
+        <button class="text-gray-300 hover:text-purple-400 p-2 relative">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          <span class="absolute top-1 right-1 bg-purple-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">1</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Barra de Notificación de Modo Edición Activo -->
+  <div id="admin-bar" class="hidden bg-purple-900/90 text-purple-100 px-4 py-2 border-b border-purple-500 text-xs font-semibold flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
+      <span>MODO EDICIÓN ACTIVO — Haz clic en cualquier texto de la página para modificarlo.</span>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="saveChanges()" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded shadow transition">Guardar Cambios</button>
+      <button onclick="logoutAdmin()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1 rounded transition">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <!-- Hero / Sobre Mí Section -->
+  <section id="sobre-mi" class="max-w-7xl mx-auto px-6 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <!-- Circular Image Container -->
+    <div class="flex justify-center">
+      <div class="relative w-72 h-72 sm:w-96 sm:h-96 rounded-full overflow-hidden border-4 border-purple-900/60 neon-border">
+        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=800" alt="Trainer Image" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+      </div>
+    </div>
+
+    <!-- Bio Content -->
+    <div class="space-y-6">
+      <h1 data-key="bio_title" class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white uppercase">
+        SOBRE MI
+      </h1>
+      <div data-key="bio_text" class="text-purple-200/90 text-lg sm:text-xl font-normal leading-relaxed space-y-4">
+        <p>
+          Mi meta era clara, no podia seguir siendo "la gorda", cansada de sufrir bullying a los 13 años decido hacer ejercicio por primera vez, y eso resultó formando parte de mi y convirtiendose en mi profesion.
+        </p>
+        <p>
+          Tengo 10 años acompañando el caso de muchas mujeres que por mas que hoy en dia "no se hable de cuerpos ajenos", no sabemos lo que cada persona esconde detrás. Soy María Personal Trainer, y te aseguro que podes construir una versión de vos misma que jamás imaginaste.
+        </p>
+      </div>
+      <div>
+        <a href="#planes" class="inline-block text-purple-300 hover:text-white underline underline-offset-8 font-semibold text-lg transition">
+          Comprar ahora
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee Banner -->
+  <div class="bg-black py-4 border-y border-purple-900/40 overflow-hidden my-6">
+    <div class="animate-marquee whitespace-nowrap text-xs sm:text-sm tracking-widest text-purple-300 uppercase font-semibold">
+      <span class="mx-6">Creamos cosas que funcionan mejor y duran más.</span>
+      <span class="mx-6">•</span>
+      <span class="mx-6">Creamos cosas que funcionan mejor y duran más.</span>
+      <span class="mx-6">•</span>
+      <span class="mx-6">Creamos cosas que funcionan mejor y duran más.</span>
+      <span class="mx-6">•</span>
+      <span class="mx-6">Creamos cosas que funcionan mejor y duran más.</span>
+      <span class="mx-6">•</span>
+      <span class="mx-6">Creamos cosas que funcionan mejor y duran más.</span>
+      <span class="mx-6">•</span>
+      <span class="mx-6">Creamos cosas que funcionan mejor y duran más.</span>
+      <span class="mx-6">•</span>
+    </div>
+  </div>
+
+  <!-- Pain Points Section -->
+  <section class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div class="lg:col-span-1">
+        <h2 data-key="question_title" class="text-4xl sm:text-5xl font-extrabold text-purple-400 leading-tight">
+          ¿Te pasa alguna de estas?
+        </h2>
+      </div>
+      <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-purple-950/20 border border-purple-900/40">
+          <h3 data-key="pain1_title" class="text-xl font-bold text-white mb-3">«Siento que todos me van a mirar»</h3>
+          <p data-key="pain1_text" class="text-gray-400 text-sm leading-relaxed">Te da vergüenza entrar a un lugar donde parece que todas saben exactamente qué hacer.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-purple-950/20 border border-purple-900/40">
+          <h3 data-key="pain2_title" class="text-xl font-bold text-white mb-3">«No sé usar las máquinas»</h3>
+          <p data-key="pain2_text" class="text-gray-400 text-sm leading-relaxed">Llegás, das vueltas sin saber por dónde empezar y terminás en la cinta o volviéndote a casa.</p>
+        </div>
+        <div class="p-6 rounded-2xl bg-purple-950/20 border border-purple-900/40">
+          <h3 data-key="pain3_title" class="text-xl font-bold text-white mb-3">«Ya empecé mil veces y siempre abandono»</h3>
+          <p data-key="pain3_text" class="text-gray-400 text-sm leading-relaxed">Arrancás con todas las ganas y a las pocas semanas lo dejás. Sentís que esta vez va a ser igual.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Plans Section -->
+  <section id="planes" class="max-w-7xl mx-auto px-6 py-16">
+    <div class="text-center mb-12 space-y-3">
+      <h2 data-key="plans_main_title" class="text-4xl sm:text-5xl font-extrabold text-white">Elige tu plan</h2>
+      <p data-key="plans_main_subtitle" class="text-purple-300 text-lg">Encuentra el acompañamiento ideal para alcanzar tus objetivos en el gym.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Plan 1 -->
+      <div class="bg-purple-950/30 border border-purple-800/60 rounded-3xl p-8 flex flex-col justify-between neon-border relative">
+        <div class="space-y-4">
+          <h3 data-key="p1_name" class="text-2xl font-bold text-white flex items-center gap-2">Basico ✨</h3>
+          <div data-key="p1_price" class="text-4xl font-extrabold text-purple-400">S/. 60.00</div>
+          <p data-key="p1_desc" class="text-gray-300 text-sm leading-relaxed">Describe aquí qué incluye este plan de entrenamiento.</p>
+          <div class="bg-black/50 p-4 rounded-xl border border-purple-900/50 text-xs text-purple-200/90 space-y-1">
+            <p>Pago por Yape: <strong>+51 961 474 243</strong></p>
+            <p>A nombre de Maria Ord. Después de yapear, envía tu constancia por WhatsApp.</p>
+          </div>
+        </div>
+        <button onclick="openYapeModal('Basico ✨', 'S/. 60.00')" class="w-full mt-8 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition text-center">
+          Comprar plan con Yape
+        </button>
+      </div>
+
+      <!-- Plan 2 -->
+      <div class="bg-purple-950/30 border border-purple-800/60 rounded-3xl p-8 flex flex-col justify-between neon-border relative">
+        <div class="space-y-4">
+          <h3 data-key="p2_name" class="text-2xl font-bold text-white">Plan Pro 🚀</h3>
+          <div data-key="p2_price" class="text-4xl font-extrabold text-purple-400">S/. 120.00</div>
+          <p data-key="p2_desc" class="text-gray-300 text-sm leading-relaxed">Incluye rutina personalizada, guía de alimentación y revisión de técnica por videos semanal.</p>
+          <div class="bg-black/50 p-4 rounded-xl border border-purple-900/50 text-xs text-purple-200/90 space-y-1">
+            <p>Pago por Yape: <strong>+51 961 474 243</strong></p>
+            <p>A nombre de Maria Ord. Después de yapear, envía tu constancia por WhatsApp.</p>
+          </div>
+        </div>
+        <button onclick="openYapeModal('Plan Pro 🚀', 'S/. 120.00')" class="w-full mt-8 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition text-center">
+          Comprar plan con Yape
+        </button>
+      </div>
+
+      <!-- Plan 3 -->
+      <div class="bg-purple-950/30 border border-purple-800/60 rounded-3xl p-8 flex flex-col justify-between neon-border relative">
+        <div class="space-y-4">
+          <h3 data-key="p3_name" class="text-2xl font-bold text-white">VIP 1 a 1 🔥</h3>
+          <div data-key="p3_price" class="text-4xl font-extrabold text-purple-400">S/. 200.00</div>
+          <p data-key="p3_desc" class="text-gray-300 text-sm leading-relaxed">Acompañamiento diario 24/7, videollamadas quincenales y ajuste de cargas en tiempo real.</p>
+          <div class="bg-black/50 p-4 rounded-xl border border-purple-900/50 text-xs text-purple-200/90 space-y-1">
+            <p>Pago por Yape: <strong>+51 961 474 243</strong></p>
+            <p>A nombre de Maria Ord. Después de yapear, envía tu constancia por WhatsApp.</p>
+          </div>
+        </div>
+        <button onclick="openYapeModal('VIP 1 a 1 🔥', 'S/. 200.00')" class="w-full mt-8 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition text-center">
+          Comprar plan con Yape
+        </button>
+      </div>
+    </div>
+
+    <!-- Botón de Pagos Internacionales / Fuera de Perú -->
+    <div class="mt-12 text-center">
+      <a href="https://wa.me/51961474243?text=Hola,%20no%20soy%20de%20Perú%20y%20quiero%20adquirir%20un%20plan,%20¿cómo%20puedo%20hacer?" target="_blank" class="inline-flex items-center gap-2 bg-purple-950/60 border border-purple-700/60 hover:border-purple-400 text-purple-200 hover:text-white px-6 py-3.5 rounded-2xl font-semibold transition shadow-lg text-sm sm:text-base">
+        <i data-lucide="globe" class="w-5 h-5 text-purple-400"></i>
+        ¿No eres de Perú y quieres tu plan? Escríbeme aquí 🌍
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contacto" class="border-t border-purple-900/30 bg-black/80 py-8 text-center text-xs text-gray-500">
+    <p>© Invencible - Todos los derechos reservados. Ate Vitarte, Lima - Perú.</p>
+  </footer>
+
+  <!-- Modal Login Admin -->
+  <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-purple-950/90 border border-purple-700/60 rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+      <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2"><i data-lucide="shield-check" class="text-purple-400"></i> Acceso Administrador</h3>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-purple-300 mb-1">Usuario</label>
+          <input type="text" id="admin-user" class="w-full bg-black/60 border border-purple-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-400" placeholder="admin">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-purple-300 mb-1">Contraseña</label>
+          <input type="password" id="admin-pass" class="w-full bg-black/60 border border-purple-800 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-400" placeholder="••••••••">
+        </div>
+        <button onclick="loginAdmin()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg transition">Iniciar Sesión</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Yape Checkout -->
+  <div id="yape-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-purple-950/90 border border-purple-700/60 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
+      <button onclick="closeYapeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <div class="text-center space-y-2 mb-6">
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-600/20 text-purple-400 mb-1">
+          <i data-lucide="smartphone" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-white">Pago con Yape</h3>
+        <p id="selected-plan-info" class="text-sm text-purple-300 font-semibold"></p>
+      </div>
+
+      <!-- Paso 1: Número de Yape -->
+      <div class="bg-black/60 border border-purple-800/60 rounded-2xl p-4 mb-6 text-center">
+        <span class="text-xs text-purple-300 uppercase tracking-widest font-semibold block mb-1">Número para yapear</span>
+        <div class="flex items-center justify-center gap-2">
+          <span class="text-2xl font-extrabold text-white tracking-wider">+51 961 474 243</span>
+          <button onclick="copyNumber()" class="p-1.5 text-purple-400 hover:text-purple-300 transition" title="Copiar número">
+            <i data-lucide="copy" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <span class="text-xs text-gray-400 mt-1 block">Titular: Maria Ord.</span>
+      </div>
+
+      <!-- Paso 2: Datos del cliente -->
+      <form onsubmit="submitYapeOrder(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-purple-200 mb-1">Tu Nombre Completo *</label>
+          <input type="text" id="cust-name" required class="w-full bg-black/60 border border-purple-800/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="Ej. Ana García">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-purple-200 mb-1">Tu Correo Electrónico *</label>
+          <input type="email" id="cust-email" required class="w-full bg-black/60 border border-purple-800/80 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="ejemplo@correo.com">
+        </div>
+
+        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2">
+          <i data-lucide="send" class="w-4 h-4"></i> Confirmar mi plan e ir a WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Configuración Inicial e Iconos
+    lucide.createIcons();
+    
+    // Credenciales de Administrador
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "1234";
+
+    let currentPlan = "";
+    let currentPrice = "";
+    let isAdminLoggedIn = false;
+
+    // Cargar contenido guardado desde LocalStorage al iniciar
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedContent();
+    });
+
+    // Control de Modales
+    function toggleAuthModal() {
+      document.getElementById('auth-modal').classList.toggle('hidden');
+    }
+
+    function loginAdmin() {
+      const user = document.getElementById('admin-user').value;
+      const pass = document.getElementById('admin-pass').value;
+
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        isAdminLoggedIn = true;
+        toggleAuthModal();
+        enableEditing();
+        document.getElementById('admin-bar').classList.remove('hidden');
+        alert("¡Sesión de Administrador Iniciada! Ahora puedes editar los textos directamente.");
+      } else {
+        alert("Usuario o contraseña incorrectos.");
+      }
+    }
+
+    function logoutAdmin() {
+      isAdminLoggedIn = false;
+      disableEditing();
+      document.getElementById('admin-bar').classList.add('hidden');
+    }
+
+    function enableEditing() {
+      document.body.classList.add('editable-active');
+      document.querySelectorAll('[data-key]').forEach(el => {
+        el.setAttribute('contenteditable', 'true');
+      });
+    }
+
+    function disableEditing() {
+      document.body.classList.remove('editable-active');
+      document.querySelectorAll('[data-key]').forEach(el => {
+        el.removeAttribute('contenteditable');
+      });
+    }
+
+    function saveChanges() {
+      const savedData = {};
+      document.querySelectorAll('[data-key]').forEach(el => {
+        savedData[el.getAttribute('data-key')] = el.innerHTML;
+      });
+      localStorage.setItem('invencible_site_content', JSON.stringify(savedData));
+      alert("¡Todos los cambios han sido guardados exitosamente!");
+    }
+
+    function loadSavedContent() {
+      const saved = localStorage.getItem('invencible_site_content');
+      if (saved) {
+        const data = JSON.parse(saved);
+        Object.keys(data).forEach(key => {
+          const el = document.querySelector(`[data-key="${key}"]`);
+          if (el) el.innerHTML = data[key];
+        });
+      }
+    }
+
+    // Lógica del Checkout con Yape
+    function openYapeModal(planName, price) {
+      currentPlan = planName;
+      currentPrice = price;
+      document.getElementById('selected-plan-info').innerText = `${planName} - ${price}`;
+      document.getElementById('yape-modal').classList.remove('hidden');
+    }
+
+    function closeYapeModal() {
+      document.getElementById('yape-modal').classList.add('hidden');
+    }
+
+    function copyNumber() {
+      navigator.clipboard.writeText("+51961474243");
+      alert("Número +51 961 474 243 copiado al portapapeles.");
+    }
+
+    function submitYapeOrder(e) {
+      e.preventDefault();
+      const name = document.getElementById('cust-name').value;
+      const email = document.getElementById('cust-email').value;
+
+      const message = `Hola, ya realicé el Yape para el *${currentPlan}* (${currentPrice}).%0A%0A*Mis Datos:*%0A- Nombre: ${name}%0A- Correo: ${email}%0A%0AAdjunto el comprobante de pago:`;
+      const whatsappUrl = `https://wa.me/51961474243?text=${message}`;
+
+      window.open(whatsappUrl, '_blank');
+      closeYapeModal();
+    }
+  </script>
+</body>
+</html>
